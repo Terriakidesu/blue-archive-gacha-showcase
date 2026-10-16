@@ -23,9 +23,15 @@
             <p class="showcase-intro">A focused reference for card motion, timing, and easing.</p>
           </div>
         </div>
-        <div class="showcase-edition" aria-label="Showcase edition 02">
-          <strong>02</strong>
-          <span>MOTION<br />STUDIES</span>
+        <div class="showcase-header-tools">
+          <div class="showcase-edition" aria-label="Showcase edition 02">
+            <strong>02</strong>
+            <span>MOTION<br />STUDIES</span>
+          </div>
+          <nav class="showcase-header-nav" aria-label="Primary navigation">
+            <a class="is-active" href="./">Showcase</a>
+            <a href="downloads.html">Downloads</a>
+          </nav>
         </div>
       </header>
 
@@ -94,7 +100,14 @@
                   :data-index="cardIndex(card)"
                   :style="animationStyle(animation, card)"
                 >
-                  <div class="gacha-card-inner">
+                  <img
+                    v-if="animation.kind === 'fly-in'"
+                    class="gacha-fly-card-image"
+                    :src="`assets/cards/${card.asset}`"
+                    :alt="frontAlt(card)"
+                    decoding="async"
+                  />
+                  <div v-else class="gacha-card-inner">
                     <div class="gacha-card-tilt">
                       <div class="gacha-card-front">
                         <img
@@ -153,7 +166,14 @@
                     :class="cardClasses(animation, animation.cards[0])"
                     :style="animationStyle(animation, animation.cards[0])"
                   >
-                    <div class="gacha-card-inner">
+                    <img
+                      v-if="animation.kind === 'fly-in'"
+                      class="gacha-fly-card-image"
+                      :src="`assets/cards/${animation.cards[0].asset}`"
+                      :alt="frontAlt(animation.cards[0])"
+                      decoding="async"
+                    />
+                    <div v-else class="gacha-card-inner">
                       <div class="gacha-card-tilt">
                         <div class="gacha-card-front">
                           <img

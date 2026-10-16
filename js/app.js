@@ -58,7 +58,7 @@ function setupSidebarObserver() {
 }
 
 async function prepareCardImages() {
-  const images = [...document.querySelectorAll('.gacha-card-front img')];
+  const images = [...document.querySelectorAll('.gacha-card-front img, .gacha-fly-card-image')];
 
   await Promise.all(
     images.map(async (image) => {

@@ -1,0 +1,248 @@
+.download-shell {
+  width: min(1040px, 100%);
+  margin: 0 auto;
+}
+
+.download-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0 clamp(0.25rem, 2vw, 1.5rem) clamp(2rem, 5vw, 3.5rem);
+}
+
+.download-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.download-brand--spaced {
+  margin-top: 1.5rem;
+}
+
+.download-brand-mark {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 4.5rem;
+  aspect-ratio: 1;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  background: linear-gradient(145deg, #50b7e2, #2d83b6);
+  border: 3px solid rgb(255 255 255 / 90%);
+  border-radius: 18px 8px 18px 8px;
+  box-shadow: 0 9px 18px rgb(49 122 157 / 22%);
+  rotate: -6deg;
+}
+
+.download-eyebrow,
+.download-section-label {
+  margin: 0 0 0.45rem;
+  color: #4e99b5;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.download-header h1,
+.download-section h2 {
+  margin: 0;
+  color: #214459;
+  letter-spacing: -0.045em;
+}
+
+.download-header h1 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 0.98;
+}
+
+.download-intro {
+  max-width: 40rem;
+  margin: 0.9rem 0 0;
+  color: #5f7c8b;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.download-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.download-nav a,
+.download-back {
+  padding: 0.55rem 0.75rem;
+  color: #287fa9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid rgb(40 127 169 / 28%);
+  border-radius: 6px;
+}
+
+.download-nav a:hover,
+.download-nav a.is-active,
+.download-back:hover {
+  color: #fff;
+  background: #287fa9;
+}
+
+.download-intro-panel,
+.download-section,
+.download-notice,
+.download-footer {
+  border-top: 1px solid rgb(94 177 201 / 28%);
+}
+
+.download-intro-panel {
+  padding: 1.5rem 0 2rem;
+}
+
+.download-section {
+  padding: 2rem 0;
+}
+
+.download-section-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.download-section h2 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.download-section-header p:last-child {
+  margin: 0;
+  color: #6b8997;
+  font-size: 0.75rem;
+}
+
+.download-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.download-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: #31566a;
+  text-decoration: none;
+  background: rgb(255 255 255 / 48%);
+  border: 1px solid rgb(94 177 201 / 20%);
+  border-radius: 7px;
+  transition:
+    background 140ms ease,
+    border-color 140ms ease,
+    translate 140ms ease;
+}
+
+.download-item:hover {
+  background: rgb(112 194 218 / 14%);
+  border-color: rgb(40 127 169 / 42%);
+  translate: 0 -1px;
+}
+
+.download-item strong,
+.download-item small {
+  display: block;
+}
+
+.download-item strong {
+  color: #214459;
+  font-size: 0.85rem;
+}
+
+.download-item small {
+  margin-top: 0.25rem;
+  color: #6b8997;
+  font-family: Consolas, monospace;
+  font-size: 0.68rem;
+}
+
+.download-action {
+  flex: 0 0 auto;
+  color: #287fa9;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.download-notice {
+  display: grid;
+  grid-template-columns: minmax(12rem, 0.7fr) minmax(0, 1.3fr);
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.download-notice h2 {
+  margin: 0;
+  color: #214459;
+  font-size: 1.2rem;
+}
+
+.download-notice p {
+  margin: 0;
+  color: #62808e;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.download-notice a {
+  color: #287fa9;
+  font-weight: 700;
+}
+
+.download-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0 0;
+  color: #6b8997;
+  font-size: 0.68rem;
+}
+
+.download-footer a {
+  color: #287fa9;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .download-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .download-nav {
+    justify-content: flex-start;
+  }
+
+  .download-notice {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .download-brand-mark {
+    width: 3.5rem;
+  }
+
+  .download-item,
+  .download-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
