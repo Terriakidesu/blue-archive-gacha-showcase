@@ -222,7 +222,7 @@
 
 .download-format-links {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
   margin-top: auto;
 }
@@ -260,24 +260,6 @@
   font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;
-}
-
-.download-section--small .download-asset {
-  max-width: 39rem;
-}
-
-.download-asset--star {
-  display: grid;
-  grid-template-columns: 12rem minmax(0, 1fr);
-}
-
-.download-preview--star {
-  min-height: 12rem;
-}
-
-.download-preview--star img {
-  width: min(100%, 8rem);
-  aspect-ratio: auto;
 }
 
 .download-notice {
@@ -355,14 +337,6 @@
 
   .download-asset-grid {
     grid-template-columns: 1fr;
-  }
-
-  .download-asset--star {
-    grid-template-columns: 1fr;
-  }
-
-  .download-preview--star {
-    min-height: 10rem;
   }
 
   .download-footer {

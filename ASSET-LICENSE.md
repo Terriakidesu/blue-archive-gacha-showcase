@@ -8,6 +8,9 @@ These original recreations and their baked derivatives are released as Creative 
 - `assets/svgs/Gacha-Gold.svg`
 - `assets/svgs/Gacha-Purple.svg`
 - `assets/svgs/Star.svg`
+- `assets/cards/Gacha-Blue.png`
+- `assets/cards/Gacha-Gold.png`
+- `assets/cards/Gacha-Purple.png`
 - `assets/cards/Gacha-Blue.webp`
 - `assets/cards/Gacha-Gold.webp`
 - `assets/cards/Gacha-Purple.webp`
