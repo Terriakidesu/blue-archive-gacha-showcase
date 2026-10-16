@@ -101,7 +101,11 @@
                   <div class="gacha-card-inner">
                     <div class="gacha-card-tilt">
                       <div class="gacha-card-front">
-                        <img :src="`assets/svgs/${card.asset}`" :alt="frontAlt(card)" />
+                        <img
+                          :src="`assets/cards/${card.asset}`"
+                          :alt="frontAlt(card)"
+                          decoding="async"
+                        />
                       </div>
                       <div v-if="animation.kind === 'flip'" class="gacha-card-back">
                         <div class="gacha-result">
@@ -159,8 +163,9 @@
                       <div class="gacha-card-tilt">
                         <div class="gacha-card-front">
                           <img
-                            :src="`assets/svgs/${animation.cards[0].asset}`"
+                            :src="`assets/cards/${animation.cards[0].asset}`"
                             :alt="frontAlt(animation.cards[0])"
+                            decoding="async"
                           />
                         </div>
                         <div v-if="animation.kind === 'flip'" class="gacha-card-back">

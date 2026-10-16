@@ -2,17 +2,17 @@ export const categoryOrder = ['Entrance', 'Reveal', 'Motion', 'Effects'];
 
 const rarityConfig = {
   blue: {
-    asset: 'Gacha-Blue.svg',
+    asset: 'Gacha-Blue.webp',
     label: 'Blue',
     stars: 1,
   },
   purple: {
-    asset: 'Gacha-Purple.svg',
+    asset: 'Gacha-Purple.webp',
     label: 'Purple',
     stars: 3,
   },
   gold: {
-    asset: 'Gacha-Gold.svg',
+    asset: 'Gacha-Gold.webp',
     label: 'Gold',
     stars: 2,
   },
