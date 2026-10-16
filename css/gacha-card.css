@@ -1,0 +1,119 @@
+.gacha-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: row;
+  gap: clamp(0.5rem, 2vw, 2rem) clamp(0.5rem, 2vw, 1.5rem);
+  justify-items: center;
+  align-items: center;
+  width: min(68rem, 100%);
+  margin-inline: auto;
+  perspective: 1000px;
+}
+
+.gacha-card {
+  width: 100%;
+  max-width: 10rem;
+  perspective: 800px;
+}
+
+.gacha-card-inner {
+  position: relative;
+  display: grid;
+  width: 100%;
+  aspect-ratio: 566 / 740;
+  transform-style: preserve-3d;
+}
+
+.gacha-card-tilt {
+  display: grid;
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.gacha-card-front,
+.gacha-card-back {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gacha-card-front {
+  transform: rotateZ(-15deg);
+}
+
+.gacha-card-front img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.gacha-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Portrait result card (back face) */
+.gacha-result {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  background: #fff;
+  border-radius: 7px;
+  overflow: hidden;
+  transform: skewX(-10deg);
+  box-shadow: 0 3px 5px rgb(38 76 93 / 30%);
+}
+
+.gacha-result-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 21%;
+  width: 100%;
+  height: 100%;
+  background: #d7e3ec;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.gacha-result-portrait {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.gacha-result-portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: skewX(10deg) scale(1.18);
+}
+
+.gacha-result-stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  padding-inline: 10%;
+  background: #607182;
+  border-top: 2px solid #fff;
+}
+
+.gacha-result-stars > span:not(.sr-only) {
+  display: block;
+  flex: 0 1 22%;
+  aspect-ratio: 1;
+  max-width: 2rem;
+  font-size: 0;
+  background: url('../assets/svgs/Star.svg') center / contain no-repeat;
+  transform: skewX(10deg);
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 40%));
+}

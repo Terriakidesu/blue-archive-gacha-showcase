@@ -1,0 +1,61 @@
+.gacha-flip .gacha-card-inner {
+  animation-name: gacha-flip-anim;
+  animation-duration: 2500ms;
+  animation-timing-function: cubic-bezier(0.51, -0.33, 0.38, 1.05);
+  animation-delay: var(--flip-delay, 0ms);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  will-change: transform;
+}
+
+@keyframes gacha-flip-anim {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  90%,
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gacha-flip .gacha-card-inner {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
+
+.gacha-fly-in {
+  animation-name: gacha-fly-in-anim;
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.3, 1.09, 0.36, 0.99);
+  animation-delay: var(--fly-in-delay, 0ms);
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  will-change: transform, opacity;
+}
+
+@keyframes gacha-fly-in-anim {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 48px, -160px) scale(5);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gacha-fly-in {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
