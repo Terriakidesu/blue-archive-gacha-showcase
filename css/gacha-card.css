@@ -8,7 +8,6 @@
   align-items: center;
   width: min(68rem, 100%);
   margin-inline: auto;
-  perspective: 1000px;
 }
 
 .gacha-card {
