@@ -380,7 +380,6 @@
   padding: 1rem;
   perspective: 1000px;
   background: rgb(220 244 250 / 38%);
-  border-left: 2px solid #e0323e;
 }
 
 .single-card-stage .gacha-card {
@@ -418,7 +417,7 @@
 }
 
 .anim-curve-track {
-  height: 150px;
+  height: clamp(12rem, 18vw, 16rem);
   min-width: 0;
   padding: 0.4rem;
   background: rgb(255 255 255 / 45%);

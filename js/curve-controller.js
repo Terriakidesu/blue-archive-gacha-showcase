@@ -76,6 +76,7 @@ export class CurveController {
         animation,
         panel,
         figure,
+        time: figure.querySelector('[data-curve-time]'),
         curve: this.buildCurve(figure, animation),
         startedAt: performance.now(),
       });
@@ -91,8 +92,11 @@ export class CurveController {
     const state = this.states.get(animationId);
     if (!state) return;
 
+    this.reset(state);
+
     requestAnimationFrame(() => {
       this.refresh(state);
+      this.reset(state);
       this.start();
     });
   }
@@ -107,6 +111,22 @@ export class CurveController {
       const computed = getComputedStyle(state.target);
       state.duration = parseAnimationTime(computed.animationDuration);
       state.delay = parseAnimationTime(computed.animationDelay);
+    }
+  }
+
+  reset(state) {
+    if (!state.curve) return;
+
+    const positionX = state.curve.x(0);
+    const positionY = state.curve.y(state.curve.ease(0));
+
+    state.curve.progress.setAttribute('x1', positionX);
+    state.curve.progress.setAttribute('x2', positionX);
+    state.curve.dot.setAttribute('cx', positionX);
+    state.curve.dot.setAttribute('cy', positionY);
+
+    if (state.time) {
+      state.time.textContent = `0.0s / ${(state.duration / 1000).toFixed(1)}s`;
     }
   }
 
@@ -147,7 +167,9 @@ export class CurveController {
     state.curve.progress.setAttribute('x2', positionX);
     state.curve.dot.setAttribute('cx', positionX);
     state.curve.dot.setAttribute('cy', positionY);
-    state.time.textContent = `${(elapsed / 1000).toFixed(1)}s / ${(state.duration / 1000).toFixed(1)}s`;
+    if (state.time) {
+      state.time.textContent = `${(elapsed / 1000).toFixed(1)}s / ${(state.duration / 1000).toFixed(1)}s`;
+    }
 
     return progress < 1;
   }
