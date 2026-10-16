@@ -417,7 +417,8 @@
 }
 
 .anim-curve-track {
-  height: clamp(12rem, 18vw, 16rem);
+  aspect-ratio: 16 / 5;
+  min-height: 12rem;
   min-width: 0;
   padding: 0.4rem;
   background: rgb(255 255 255 / 45%);

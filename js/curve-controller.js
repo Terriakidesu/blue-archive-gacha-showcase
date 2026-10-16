@@ -177,7 +177,7 @@ export class CurveController {
   buildCurve(figure, animation) {
     const [x1, y1, x2, y2] = animation.easing.split(',').map(Number);
     const track = figure.querySelector('.anim-curve-track');
-    const width = 260;
+    const width = 480;
     const height = 150;
     const left = 28;
     const right = 12;
@@ -190,7 +190,7 @@ export class CurveController {
     const ease = bezierEaser(x1, y1, x2, y2);
     const svg = svgElement('svg', {
       viewBox: `0 0 ${width} ${height}`,
-      preserveAspectRatio: 'none',
+      preserveAspectRatio: 'xMidYMid meet',
     });
 
     svg.append(
