@@ -3,6 +3,11 @@
   margin: 0 auto;
 }
 
+.showcase-shell.is-preloading .gacha-fly-in,
+.showcase-shell.is-preloading .gacha-flip .gacha-card-inner {
+  animation-play-state: paused;
+}
+
 .showcase-header {
   display: flex;
   align-items: flex-end;

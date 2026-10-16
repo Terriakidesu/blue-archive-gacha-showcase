@@ -42,6 +42,22 @@ function setupSidebarObserver() {
   sections.forEach((section) => observer.observe(section));
 }
 
+async function prepareCardImages() {
+  const images = [...document.querySelectorAll('.gacha-card-front img')];
+
+  await Promise.all(
+    images.map(async (image) => {
+      try {
+        await image.decode?.();
+      } catch {
+        // The image may already be decoded or still be completing its load.
+      }
+    }),
+  );
+
+  document.querySelector('#app')?.classList.remove('is-preloading');
+}
+
 const app = {
   animations,
   categoryGroups,
@@ -82,7 +98,9 @@ const app = {
 };
 
 createApp(app).mount('#app');
-requestAnimationFrame(() => {
-  curveController.mount(animations);
-  setupSidebarObserver();
+prepareCardImages().then(() => {
+  requestAnimationFrame(() => {
+    curveController.mount(animations);
+    setupSidebarObserver();
+  });
 });
