@@ -10,6 +10,6 @@ The assets under these directories are not owned by this project:
 
 Those Blue Archive-related assets, including any characters, portraits, avatars, icons, names, and marks they depict, remain the property of their respective developers and publisher. No ownership claim is made over them.
 
-The card artwork in `assets/svgs/` and the baked files in `assets/cards/` are separately identified as Creative Commons–licensed project assets. The source license and attribution requirements should be checked before reuse.
+The card artwork in `assets/svgs/` and the baked files in `assets/cards/` are original recreations made by Terriakidesu from in-game screenshots. They are separately identified as Creative Commons–licensed project assets and are not official Blue Archive files. The applicable Creative Commons attribution requirements should be preserved when reusing them.
 
 The MIT license applies only to the original code in this repository. This project does not grant permission to use Blue Archive intellectual property or any third-party asset beyond the rights provided by its respective owner or license.

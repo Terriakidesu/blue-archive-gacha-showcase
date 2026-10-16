@@ -23,7 +23,7 @@ Petite Vue is loaded from a pinned CDN module at runtime.
 ## Licensing
 
 - **Code:** MIT. See [`LICENSE`](LICENSE).
-- **Card SVGs and baked WebP files:** Creative Commons–licensed project assets. See [`ASSET-LICENSE.md`](ASSET-LICENSE.md) for the scope and attribution notice.
+- **Card SVGs and baked WebP files:** Original recreations made for this project from in-game screenshots, released as Creative Commons–licensed project assets. See [`ASSET-LICENSE.md`](ASSET-LICENSE.md) for the scope and attribution notice.
 - **`assets/avatar/`, `assets/portrait/`, and `assets/ba-icons/`:** third-party Blue Archive-related assets. They are not owned by this project and are not covered by the MIT code license.
 
 For the full notice, see [`DISCLAIMER.md`](DISCLAIMER.md). Please verify the source terms and attribution requirements before redistributing any asset.
