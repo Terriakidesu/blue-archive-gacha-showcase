@@ -85,11 +85,7 @@
               <span>5 × 2 / staggered sequence</span>
             </div>
             <div class="showcase-grid-stage">
-              <div
-                v-if="animation.sequenceVisible"
-                class="gacha-grid showcase-grid"
-                aria-label="Ten card animation"
-              >
+              <div class="gacha-grid showcase-grid" aria-label="Ten card animation">
                 <article
                   v-for="card in animation.cards"
                   :key="card.index"
@@ -153,8 +149,6 @@
               <div class="single-study-content">
                 <div class="single-card-stage" data-focused-card>
                   <article
-                    v-if="animation.focusedVisible"
-                    :key="`${animation.id}-focused-${animation.focusedKey}`"
                     class="gacha-card"
                     :class="cardClasses(animation, animation.cards[0])"
                     :style="animationStyle(animation, animation.cards[0])"

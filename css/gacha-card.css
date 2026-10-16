@@ -52,6 +52,22 @@
   height: 100%;
 }
 
+/* Fly-in has one face: flatten its artwork into the moving card's layer.
+   The grid/stage perspective still projects the original Z translation. */
+.gacha-fly-in {
+  perspective: none;
+}
+
+.gacha-fly-in .gacha-card-inner,
+.gacha-fly-in .gacha-card-tilt {
+  transform-style: flat;
+}
+
+.gacha-fly-in .gacha-card-front {
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+}
+
 .gacha-card-back {
   transform: rotateY(180deg);
 }

@@ -31,10 +31,7 @@ function createAnimation(config) {
   return {
     ...config,
     cards: createCards(config.rarities, config.delayStep),
-    focusedKey: 0,
-    focusedVisible: true,
     focusedStatus: 'Focused card ready',
-    sequenceVisible: true,
     sequenceStatus: 'Sequence ready',
   };
 }

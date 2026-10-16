@@ -13,6 +13,21 @@ function fullSequenceDuration(animation) {
   return animation.duration + Math.max(...animation.cards.map((card) => card.delay));
 }
 
+function replayCards(animation, selector) {
+  const panel = document.querySelector(`[data-animation-panel="${animation.id}"]`);
+  const cards = panel.querySelectorAll(`${selector} .gacha-card`);
+  const targets = [...cards].map((card) =>
+    animation.kind === 'flip' ? card.querySelector('.gacha-card-inner') : card,
+  );
+  const timelines = targets.flatMap((target) => target.getAnimations());
+
+  // Reuse the existing elements, decoded images, and composited layers.
+  timelines.forEach((timeline) => {
+    timeline.currentTime = 0;
+    timeline.play();
+  });
+}
+
 function resetStatus(animation, property, duration) {
   window.clearTimeout(animation[property]);
   animation[property] = window.setTimeout(() => {
@@ -77,22 +92,15 @@ const app = {
   },
 
   playSequence(animation) {
-    animation.sequenceVisible = false;
+    replayCards(animation, '.showcase-grid');
     animation.sequenceStatus = 'Sequence playing';
-    requestAnimationFrame(() => {
-      animation.sequenceVisible = true;
-    });
     resetStatus(animation, 'sequenceTimer', fullSequenceDuration(animation) + 250);
   },
 
   playFocused(animation) {
-    animation.focusedVisible = false;
-    animation.focusedKey += 1;
+    replayCards(animation, '[data-focused-card]');
     animation.focusedStatus = 'Focused card playing';
-    requestAnimationFrame(() => {
-      animation.focusedVisible = true;
-      curveController.play(animation.id);
-    });
+    curveController.play(animation.id);
     resetStatus(animation, 'focusedTimer', animation.duration + 250);
   },
 };
