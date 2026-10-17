@@ -1,25 +1,60 @@
 import { createApp } from 'https://unpkg.com/petite-vue@0.4.1/dist/petite-vue.es.js?module';
 import { animations, categoryGroups } from './animation-data.js';
 import { CurveController } from './curve-controller.js';
+import { FlyInRenderer } from './fly-in-renderer.js';
+import { FullSequenceController } from './full-sequence-controller.js';
+import { fullSequenceTiming } from './sequence-timing.js';
 
 const curveController = new CurveController();
+const flyInRenderer = new FlyInRenderer();
+const fullSequenceController = new FullSequenceController(flyInRenderer);
 
 function animationStyle(animation, card) {
-  const property = animation.kind === 'flip' ? '--flip-delay' : '--fly-in-delay';
-  return { [property]: `${card.delay}ms` };
+  if (animation.kind === 'full-sequence') {
+    const timing = fullSequenceTiming(animation);
+    return {
+      '--fly-in-delay': `${card.delay}ms`,
+      '--landing-delay': `${card.delay + timing.firstLanding}ms`,
+      '--landing-stagger': `${animation.stages.landing.effectStagger ?? 0}ms`,
+      '--flip-delay': `${timing.revealStart + (card.index - 1) * animation.stages.reveal.delayStep}ms`,
+    };
+  }
+  const property =
+    animation.kind === 'flip'
+      ? '--flip-delay'
+      : animation.kind === 'landing'
+        ? '--landing-delay'
+        : '--fly-in-delay';
+  return {
+    [property]: `${card.delay}ms`,
+    ...(animation.kind === 'landing'
+      ? { '--landing-stagger': `${animation.effectStagger ?? 0}ms` }
+      : {}),
+  };
 }
 
 function fullSequenceDuration(animation) {
-  return animation.duration + Math.max(...animation.cards.map((card) => card.delay));
+  const finalCardDelay = Math.max(...animation.cards.map((card) => card.delay));
+  const outlineDuration = animation.duration + (animation.effectStagger ?? 0);
+  const particleDuration =
+    (animation.particleDuration ?? 0) +
+    Math.max(0, ...(animation.particles ?? []).map((particle) => particle.delay));
+  return finalCardDelay + Math.max(outlineDuration, particleDuration);
 }
 
 function replayCards(animation, selector) {
   const panel = document.querySelector(`[data-animation-panel="${animation.id}"]`);
   const cards = panel.querySelectorAll(`${selector} .gacha-card`);
   const targets = [...cards].map((card) =>
-    animation.kind === 'flip' ? card.querySelector('.gacha-card-inner') : card,
+    animation.kind === 'flip'
+      ? card.querySelector('.gacha-card-inner')
+      : animation.kind === 'landing'
+        ? card.querySelector('.gacha-landing-effects')
+        : card,
   );
-  const timelines = targets.flatMap((target) => target.getAnimations());
+  const timelines = targets
+    .filter(Boolean)
+    .flatMap((target) => target.getAnimations({ subtree: true }));
 
   // Reuse the existing elements, decoded images, and composited layers.
   timelines.forEach((timeline) => {
@@ -58,7 +93,11 @@ function setupSidebarObserver() {
 }
 
 async function prepareCardImages() {
-  const images = [...document.querySelectorAll('.gacha-card-front img, .gacha-fly-card-image')];
+  const images = [
+    ...document.querySelectorAll(
+      '.gacha-card-front img, .gacha-fly-card-image, .gacha-result-portrait img',
+    ),
+  ];
 
   await Promise.all(
     images.map(async (image) => {
@@ -69,8 +108,6 @@ async function prepareCardImages() {
       }
     }),
   );
-
-  document.querySelector('#app')?.classList.remove('is-preloading');
 }
 
 const app = {
@@ -79,8 +116,25 @@ const app = {
 
   animationStyle,
 
+  particleStyle(animation, particle) {
+    return {
+      left: `${particle.x}%`,
+      top: `${particle.y}%`,
+      '--particle-size': `${particle.size}px`,
+      '--particle-delay': `${particle.delay}ms`,
+      '--particle-duration': `${animation.particleDuration}ms`,
+      '--particle-drift': `${particle.drift}px`,
+    };
+  },
+
   cardClasses(animation, card) {
-    return [`gacha-card--${card.rarity}`, animation.className];
+    if (animation.kind === 'full-sequence') {
+      return [`gacha-card--${card.rarity}`, 'gacha-full-card', 'gacha-fly-in', 'gacha-flip'];
+    }
+    return [
+      `gacha-card--${card.rarity}`,
+      ...(animation.kind === 'landing' ? [] : [animation.className]),
+    ];
   },
 
   cardIndex(card) {
@@ -91,14 +145,34 @@ const app = {
     return `${card.label} gacha card front`;
   },
 
+  sequenceDescriptor(animation) {
+    if (animation.kind === 'full-sequence') return '5 × 2 / fly-in → landing → reveal';
+    return animation.kind === 'landing'
+      ? '3 cards / coordinated playback'
+      : '5 × 2 / staggered sequence';
+  },
+
+  playbackDescriptor(animation) {
+    if (animation.kind === 'full-sequence') return 'AUTOMATIC THREE-STAGE PLAYBACK';
+    return animation.supportsFocusedPlayback
+      ? 'CURVE SYNCED TO FOCUSED CARD'
+      : 'ALL THREE CARDS PLAY TOGETHER';
+  },
+
   playSequence(animation) {
-    replayCards(animation, '.showcase-grid');
+    if (animation.kind === 'full-sequence') {
+      fullSequenceController.play(animation, (status) => (animation.sequenceStatus = status));
+      return;
+    }
+    if (!flyInRenderer.play(animation.id, 'sequence')) replayCards(animation, '.showcase-grid');
     animation.sequenceStatus = 'Sequence playing';
     resetStatus(animation, 'sequenceTimer', fullSequenceDuration(animation) + 250);
   },
 
   playFocused(animation) {
-    replayCards(animation, '[data-focused-card]');
+    if (!animation.supportsFocusedPlayback) return;
+
+    if (!flyInRenderer.play(animation.id, 'focused')) replayCards(animation, '[data-focused-card]');
     animation.focusedStatus = 'Focused card playing';
     curveController.play(animation.id);
     resetStatus(animation, 'focusedTimer', animation.duration + 250);
@@ -106,9 +180,12 @@ const app = {
 };
 
 createApp(app).mount('#app');
-prepareCardImages().then(() => {
+prepareCardImages().then(async () => {
+  fullSequenceController.mount(animations);
+  await flyInRenderer.mount(animations);
+  document.querySelector('#app')?.classList.remove('is-preloading');
   requestAnimationFrame(() => {
-    curveController.mount(animations);
+    curveController.mount(animations, flyInRenderer.playbackSources);
     setupSidebarObserver();
   });
 });

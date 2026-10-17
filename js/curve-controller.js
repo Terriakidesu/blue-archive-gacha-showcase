@@ -10,7 +10,7 @@ function svgElement(name, attributes = {}) {
   return element;
 }
 
-function bezierEaser(x1, y1, x2, y2) {
+export function bezierEaser(x1, y1, x2, y2) {
   const cx = 3 * x1;
   const bx = 3 * (x2 - x1) - cx;
   const ax = 1 - cx - bx;
@@ -65,7 +65,7 @@ export class CurveController {
   states = new Map();
   frameRequested = false;
 
-  mount(animations) {
+  mount(animations, playbackSources = new Map()) {
     animations.forEach((animation) => {
       const panel = document.querySelector(`[data-animation-panel="${animation.id}"]`);
       const figure = panel?.querySelector('.anim-curve');
@@ -74,6 +74,7 @@ export class CurveController {
 
       this.states.set(animation.id, {
         animation,
+        playbackSource: playbackSources.get(animation.id),
         panel,
         figure,
         time: figure.querySelector('[data-curve-time]'),
@@ -104,8 +105,14 @@ export class CurveController {
   refresh(state) {
     const card = state.panel.querySelector('[data-focused-card] .gacha-card');
     state.target = card ? getAnimationTarget(card, state.animation) : null;
-    state.cssAnimation = state.target?.getAnimations?.()[0] ?? null;
+    state.cssAnimation = state.playbackSource ?? state.target?.getAnimations?.()[0] ?? null;
     state.startedAt = performance.now();
+
+    if (state.playbackSource) {
+      state.duration = state.playbackSource.duration;
+      state.delay = 0;
+      return;
+    }
 
     if (state.target) {
       const computed = getComputedStyle(state.target);

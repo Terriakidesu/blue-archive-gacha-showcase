@@ -56,8 +56,7 @@
             </section>
           </nav>
           <p class="anim-sidebar-hint">
-            Sections are sorted by category. Each study pairs a full sequence with one isolated
-            card.
+            Sections are sorted by category. Each study is generated from the animation data.
           </p>
         </aside>
 
@@ -81,17 +80,26 @@
               <div class="showcase-actions">
                 <p class="showcase-status"><span></span>{{ animation.sequenceStatus }}</p>
                 <button class="showcase-button" type="button" @click="playSequence(animation)">
-                  Play sequence <span aria-hidden="true">↻</span>
+                  {{ animation.kind === 'landing' ? 'Play all three' : 'Play sequence' }}
+                  <span aria-hidden="true">↻</span>
                 </button>
               </div>
             </header>
 
             <div class="sequence-label">
-              <span>Full showcase</span>
-              <span>5 × 2 / staggered sequence</span>
+              <span>{{ animation.kind === 'landing' ? 'Rarity set' : 'Full showcase' }}</span>
+              <span>{{ sequenceDescriptor(animation) }}</span>
             </div>
             <div class="showcase-grid-stage">
-              <div class="gacha-grid showcase-grid" aria-label="Ten card animation">
+              <div
+                class="gacha-grid showcase-grid"
+                :class="{ 'showcase-grid--landing': animation.kind === 'landing' }"
+                :aria-label="
+                  animation.kind === 'landing'
+                    ? 'Three-card rarity landing animation'
+                    : 'Ten card animation'
+                "
+              >
                 <article
                   v-for="card in animation.cards"
                   :key="card.index"
@@ -101,13 +109,13 @@
                   :style="animationStyle(animation, card)"
                 >
                   <img
-                    v-if="animation.kind === 'fly-in'"
+                    v-if="animation.kind === 'fly-in' || animation.kind === 'full-sequence'"
                     class="gacha-fly-card-image"
                     :src="`assets/cards/${card.asset}`"
                     :alt="frontAlt(card)"
                     decoding="async"
                   />
-                  <div v-else class="gacha-card-inner">
+                  <div v-if="animation.kind !== 'fly-in'" class="gacha-card-inner">
                     <div class="gacha-card-tilt">
                       <div class="gacha-card-front">
                         <img
@@ -116,7 +124,10 @@
                           decoding="async"
                         />
                       </div>
-                      <div v-if="animation.kind === 'flip'" class="gacha-card-back">
+                      <div
+                        v-if="animation.kind === 'flip' || animation.kind === 'full-sequence'"
+                        class="gacha-card-back"
+                      >
                         <div class="gacha-result">
                           <div class="gacha-result-inner">
                             <div class="gacha-result-portrait">
@@ -135,11 +146,31 @@
                       </div>
                     </div>
                   </div>
+                  <div
+                    v-if="animation.kind === 'landing' || animation.kind === 'full-sequence'"
+                    class="gacha-landing-effects"
+                    aria-hidden="true"
+                  >
+                    <span
+                      v-if="card.landingEffect"
+                      class="gacha-landing-effect gacha-landing-effect--thin"
+                    ></span>
+                    <span
+                      v-if="card.landingEffect && card.rarity === 'purple'"
+                      class="gacha-landing-effect gacha-landing-effect--thick"
+                    ></span>
+                    <span
+                      v-for="(particle, particleIndex) in animation.particles"
+                      :key="particleIndex"
+                      class="gacha-landing-particle"
+                      :style="particleStyle(animation, particle)"
+                    ></span>
+                  </div>
                 </article>
               </div>
             </div>
 
-            <div class="single-study">
+            <div v-if="animation.supportsFocusedPlayback" class="single-study">
               <div class="single-study-heading">
                 <div class="single-study-title">
                   <p class="showcase-section-label">ISOLATED STUDY</p>
@@ -225,7 +256,7 @@
                 animation.duration }}MS</span
               >
               <span class="showcase-footer-line" aria-hidden="true"></span>
-              <span>CURVE SYNCED TO FOCUSED CARD</span>
+              <span>{{ playbackDescriptor(animation) }}</span>
             </footer>
           </section>
 

@@ -3,8 +3,64 @@
   margin: 0 auto;
 }
 
+.fly-in-canvas {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.uses-webgl-fly-in .gacha-fly-in {
+  animation: none;
+  transform: none;
+  will-change: auto;
+}
+
+.uses-webgl-fly-in .gacha-fly-card-image {
+  opacity: 0;
+}
+
+.uses-webgl-fly-in .gacha-card::before {
+  visibility: hidden;
+}
+
+.gacha-full-card {
+  display: grid;
+}
+
+.gacha-full-card > .gacha-fly-card-image,
+.gacha-full-card > .gacha-card-inner {
+  grid-area: 1 / 1;
+}
+
+.gacha-full-card > .gacha-card-inner {
+  visibility: hidden;
+}
+
+.is-revealing .gacha-full-card {
+  animation: none;
+  transform: none;
+  perspective: 800px;
+  contain: none;
+}
+
+.is-revealing .gacha-full-card > .gacha-fly-card-image {
+  visibility: hidden;
+}
+
+.is-revealing .gacha-full-card > .gacha-card-inner,
+.uses-webgl-fly-in.is-revealing .gacha-card::before {
+  visibility: visible;
+}
+
 .showcase-shell.is-preloading .gacha-fly-in,
-.showcase-shell.is-preloading .gacha-flip .gacha-card-inner {
+.showcase-shell.is-preloading .gacha-flip .gacha-card-inner,
+.showcase-shell.is-preloading .gacha-landing-effects,
+.showcase-shell.is-preloading .gacha-landing-effects .gacha-landing-effect,
+.showcase-shell.is-preloading .gacha-landing-particle,
+.showcase-shell.is-preloading .gacha-full-card .gacha-landing-effects {
   animation-play-state: paused;
 }
 
@@ -337,6 +393,17 @@
   min-width: 0;
 }
 
+.showcase-grid--landing {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto;
+  width: min(38rem, 100%);
+  gap: clamp(0.75rem, 4vw, 2rem);
+}
+
+.showcase-grid--landing .gacha-card {
+  max-width: 10rem;
+}
+
 .showcase-grid .gacha-card {
   position: relative;
 }
@@ -453,6 +520,7 @@
   aspect-ratio: 16 / 5;
   min-height: 12rem;
   min-width: 0;
+  width: 100%;
   padding: 0.4rem;
   background: rgb(255 255 255 / 45%);
   border-bottom: 1px solid rgb(94 177 201 / 24%);
